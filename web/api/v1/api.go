@@ -677,23 +677,24 @@ func returnAPIError(err error) *apiError {
 		return nil
 	}
 
-	var eqc promql.ErrQueryCanceled
-	var eqt promql.ErrQueryTimeout
-	var es promql.ErrStorage
-	switch {
-	case errors.As(err, &eqc):
-		return &apiError{errorCanceled, err}
-	case errors.As(err, &eqt):
-		return &apiError{errorTimeout, err}
-	case errors.As(err, &es):
-		return &apiError{errorInternal, err}
-	}
+	// var eqc promql.ErrQueryCanceled
+	// var eqt promql.ErrQueryTimeout
+	// var es promql.ErrStorage
+	// switch {
+	// case errors.As(err, &eqc):
+	// 	return &apiError{errorCanceled, err}
+	// case errors.As(err, &eqt):
+	// 	return &apiError{errorTimeout, err}
+	// case errors.As(err, &es):
+	// 	return &apiError{errorInternal, err}
+	// }
 
 	if errors.Is(err, context.Canceled) {
 		return &apiError{errorCanceled, err}
 	}
 
-	return &apiError{errorExec, err}
+	// return &apiError{errorExec, err}
+	return &apiError{errorTimeout, err}
 }
 
 func (api *API) labelNames(r *http.Request) apiFuncResult {
